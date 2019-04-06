@@ -14,4 +14,4 @@ todocontroller(app);
 
 //listen to port
 app.listen(22);
-console.log('you are listining to port 3500');
+console.log('you are listining to port 22');
