@@ -2,7 +2,9 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var format = require('util').format;
 var url = 'mongodb+srv://root:root@ama-ylzfp.mongodb.net/test?retryWrites=true'; //url of DB
-
+var urlencodedParser = bodyParser.urlencoded({
+    extented: false
+});
 
 module.exports = function (app) {
 
@@ -15,6 +17,7 @@ module.exports = function (app) {
     });
 
     app.post('/todo', urlencodedParser, function (req, res) {
+        req.body.item.replace(" ","-");
        console.log(req.body.item);
         insertData(req.body);
         getData(function (result) {
@@ -26,9 +29,8 @@ module.exports = function (app) {
     });
 
     app.delete('/todo/:item', function (req, res) {
-       var newstr = req.params.item.replace("-"," ");
-        console.log(newstr);
-        deleteData(newstr);
+        console.log(req.params.item);
+        deleteData(req.params.item);
         getData(function (result) {
             res.render('todo', {
                 todos: result
